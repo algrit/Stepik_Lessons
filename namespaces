@@ -1,0 +1,40 @@
+link: https://stepik.org/lesson/24460/step/10?unit=6766
+
+n = 9
+var_dict = {'global': []}
+namespace_dict = {}
+get_list = []
+
+def create(namespace, parent):
+    if namespace not in var_dict.keys():
+        var_dict[namespace] = []
+        namespace_dict[namespace] = parent
+
+
+def add(namespace, var):
+    if namespace in var_dict.keys():
+        var_dict[namespace] += [var]
+
+
+def get(namespace, var):
+    global get_list
+    if var in var_dict[namespace]:
+        get_list += [namespace]
+    else:
+        if namespace == 'global':
+            get_list += ['None']
+        else:
+            get(namespace_dict[namespace], var)
+
+for i in range(n):
+    command = input().split()
+    if command[0] == 'add':
+        add(command[1], command[2])
+    elif command[0] == 'create':
+        create(command[1], command[2])
+    elif command[0] == 'get':
+        get(command[1], command[2])
+
+for i in get_list:
+    print(i)
+
